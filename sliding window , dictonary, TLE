@@ -1,0 +1,29 @@
+class Solution:
+    def findAnagrams(self, s: str, p: str) -> List[int]:
+        ans=[]
+        fmap={}
+        lp=len(p)
+        for i in p:
+            if i not in fmap:
+                fmap[i]=1
+            else:
+                fmap[i]+=1
+        copymap=fmap.copy()
+        n=len(s)
+        ws,we=0,0
+        while we<n:
+            if s[we] in fmap:
+                if fmap[s[we]]>0:
+                    fmap[s[we]]-=1
+                    we+=1
+                    if we-ws==lp:
+                        ans.append(ws)
+                else:
+                    fmap=copymap.copy()
+                    we=ws+1
+                    ws+=1
+            else:
+                fmap=copymap.copy()
+                we=ws+1
+                ws+=1
+        return ans
